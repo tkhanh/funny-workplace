@@ -51,12 +51,10 @@ const Login = () => {
     bootstrap.network
       .joinOrCreatePublic()
       .then(() => {
-        bootstrap.launchGame()
+        bootstrap.launchGame(formState)
 
         setTimeout(() => {
           const game = phaserGame.scene.keys.game as Game
-
-          console.log(game)
 
           game.registerKeys()
           game.myPlayer.setPlayerName(name)
@@ -93,7 +91,7 @@ const Login = () => {
             <label htmlFor="team">Team:</label>
             <select id="team" value={formState.team} onChange={handleChange} required>
               <option value="">Select Team</option>
-              <option value="sg">SG</option>
+              <option value="hr">HR</option>
               <option value="quizrr">Quizrr</option>
               <option value="cnh">CNH</option>
               <option value="asml">ASML</option>

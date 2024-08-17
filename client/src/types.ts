@@ -1,4 +1,4 @@
-export type Team = '' | 'sg' | 'quizrr' | 'cnh' | 'asml'
+export type Team = '' | 'hr' | 'quizrr' | 'cnh' | 'asml'
 
 export type Player = {
   id: string

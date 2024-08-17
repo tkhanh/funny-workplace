@@ -19,6 +19,14 @@ import { PlayerBehavior } from '../../../types/PlayerBehavior'
 import store from '../stores'
 import { setFocused, setShowChat } from '../stores/ChatStore'
 import { NavKeys, Keyboard } from '../../../types/KeyboardState'
+import { Player, Team } from '../types'
+
+const SEAT_MAP = new Map<Team, { x: number; y: number }>([
+  ['quizrr', { x: 1090, y: 450 }],
+  ['asml', { x: 870, y: 779 }],
+  ['hr', { x: 320, y: 246 }],
+  ['cnh', { x: 320, y: 425 }],
+])
 
 export default class Game extends Phaser.Scene {
   network!: Network
@@ -63,7 +71,7 @@ export default class Game extends Phaser.Scene {
     this.input.keyboard.enabled = true
   }
 
-  create(data: { network: Network }) {
+  create(data: { network: Network; player: Player }) {
     if (!data.network) {
       throw new Error('server instance missing')
     } else {
@@ -80,7 +88,9 @@ export default class Game extends Phaser.Scene {
 
     // debugDraw(groundLayer, this)
 
-    this.myPlayer = this.add.myPlayer(705, 500, 'adam', this.network.mySessionId)
+    const pos = SEAT_MAP.get(data.player.team) || { x: 705, y: 500 }
+
+    this.myPlayer = this.add.myPlayer(pos.x, pos.y, 'adam', this.network.mySessionId)
     this.playerSelector = new PlayerSelector(this, 0, 0, 16, 16)
 
     // import chair objects from Tiled map to Phaser

@@ -3,6 +3,7 @@ import Network from '../services/Network'
 import { BackgroundMode } from '../../../types/BackgroundMode'
 import store from '../stores'
 import { setRoomJoined } from '../stores/RoomStore'
+import { Player } from '../types'
 
 export default class Bootstrap extends Phaser.Scene {
   private preloadComplete = false
@@ -87,11 +88,12 @@ export default class Bootstrap extends Phaser.Scene {
     this.scene.launch('background', { backgroundMode })
   }
 
-  launchGame() {
+  launchGame(player: Player) {
     if (!this.preloadComplete) return
     this.network.webRTC?.checkPreviousPermission()
     this.scene.launch('game', {
       network: this.network,
+      player,
     })
 
     // update Redux state
