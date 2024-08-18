@@ -253,6 +253,12 @@ export default class Game extends Phaser.Scene {
   }
 
   private handleNotificationMessageAdded(_playerId: string, content: string) {
+    let audio = new Audio('/assets/sounds/notification.mp3')
+    for (let i = 0; i < 5; i++) {
+      audio = new Audio('/assets/sounds/notification.mp3')
+      audio.play()
+    }
+
     this.myPlayer?.addNotificationBubble(content)
   }
 
