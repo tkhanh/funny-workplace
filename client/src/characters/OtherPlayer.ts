@@ -43,6 +43,8 @@ export default class OtherPlayer extends Player {
       webRTC.connectToNewUser(this.playerId)
       this.connected = true
       this.connectionBufferTime = 0
+      const audio = new Audio('/assets/sounds/ding.mp3')
+      audio.play()
     }
   }
 
