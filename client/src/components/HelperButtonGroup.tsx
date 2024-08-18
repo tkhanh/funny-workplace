@@ -110,15 +110,37 @@ export default function HelperButtonGroup() {
   const roomNotification = useAppSelector((state) => state.room.roomNotification)
   const dispatch = useAppDispatch()
 
+  const game = phaserGame.scene.keys.game as Game
+
+  const disableKeys = () => {
+    game.disableKeys()
+  }
+
+  const enableKeys = () => {
+    game.enableKeys()
+  }
+
+  const handleRoomNotificationFocus = () => {
+    disableKeys()
+  }
+
   const handleRoomNotificationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setRoomNotification(event.target.value))
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log('Add new notification:', roomNotification)
-    const game = phaserGame.scene.keys.game as Game
     game.network.addNotificationMessage(roomNotification)
+    enableKeys()
+  }
+
+  const handleRoomNotificationBlur = () => {
+    enableKeys()
+  }
+
+  const handleRoomNotificationClose = () => {
+    setShowNotification(false)
+    enableKeys()
   }
 
   return (
@@ -127,7 +149,7 @@ export default function HelperButtonGroup() {
         {showNotification && (
           <FormWrapper onSubmit={handleSubmit}>
             <Title>Announcement</Title>
-            <IconButton className="close" onClick={() => setShowNotification(false)} size="small">
+            <IconButton className="close" onClick={handleRoomNotificationClose} size="small">
               <CloseIcon />
             </IconButton>
             {isAnnouncer ? (
@@ -140,6 +162,8 @@ export default function HelperButtonGroup() {
                   minRows={4}
                   size="small"
                   fullWidth
+                  onFocus={handleRoomNotificationFocus}
+                  onBlur={handleRoomNotificationBlur}
                   onChange={handleRoomNotificationChange}
                 />
                 <Button variant="contained" color="secondary" size="large" type="submit">
