@@ -252,13 +252,26 @@ export default class Game extends Phaser.Scene {
     otherPlayer?.updateDialogBubble(content)
   }
 
-  private handleNotificationMessageAdded(playerId: string, content: string) {
+  private async handleNotificationMessageAdded(playerId: string, content: string) {
+    this.myPlayer?.addNotificationBubble(content)
+
     if (playerId !== this.myPlayer.playerId) {
       const audio = new Audio('/assets/sounds/notification.mp3')
-      audio.play()
-    }
 
-    this.myPlayer?.addNotificationBubble(content)
+      const playAudio = (audio: HTMLAudioElement) => {
+        return new Promise<void>((resolve) => {
+          audio.addEventListener('ended', () => resolve(), { once: true })
+          audio.play().catch((error) => {
+            console.error('Error playing audio:', error)
+            resolve() // Resolve the promise even if there's an error
+          })
+        })
+      }
+
+      for (let i = 0; i < 8; i++) {
+        await playAudio(audio)
+      }
+    }
   }
 
   update(t: number, dt: number) {

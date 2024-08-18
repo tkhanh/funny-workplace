@@ -190,7 +190,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       targets: this.notificationBubble,
       x: this.playerContainer.x - this.scene.cameras.main.width - innerTextWidth * 1.25, // Move off the screen
       ease: 'Linear',
-      duration: 15000, // Adjust duration as needed
+      duration: 16000, // Adjust duration as needed
       onComplete: () => {
         // Clear the notification bubble and reset the flag
         if (this.notificationBubble) {
