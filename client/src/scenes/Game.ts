@@ -24,8 +24,8 @@ import { Player, Team } from '../types'
 const SEAT_MAP = new Map<Team, { x: number; y: number }>([
   ['quizrr', { x: 1090, y: 450 }],
   ['asml', { x: 870, y: 779 }],
-  ['hr', { x: 320, y: 246 }],
-  ['cnh', { x: 320, y: 425 }],
+  ['hr', { x: 550, y: 220 }],
+  ['cnh', { x: 550, y: 350 }],
 ])
 
 export default class Game extends Phaser.Scene {
