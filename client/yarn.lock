@@ -375,11 +375,6 @@
   resolved "https://registry.yarnpkg.com/@colyseus/schema/-/schema-1.0.34.tgz#b20d3590c78c6aaf006daea9b9541abaff13843d"
   integrity sha512-2PfCqu9dJlfbkQsxGi9oM+fAmWpPeMLol6tazRdBxb5mj8QykUzRFMY4pipBlUB2tkQ4qidoRMQqjVHj2HznNg==
 
-"@colyseus/schema@^2.0.34":
-  version "2.0.34"
-  resolved "https://registry.yarnpkg.com/@colyseus/schema/-/schema-2.0.34.tgz#fbec4ee7104cc49fed355ee6d9e12047e280f860"
-  integrity sha512-bDQ9tLjoAgTEkjSl+RU1j5w3YIa7Y49OOh6YL48QpITwYhHjqgDw2mkOCOlQhJJxT46X/nOwIKuDiu5GVpNzyA==
-
 "@emotion/babel-plugin@^11.7.1":
   version "11.9.2"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.9.2.tgz#723b6d394c89fb2ef782229d92ba95a740576e95"
