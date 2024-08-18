@@ -19,7 +19,8 @@ function App() {
 
   return (
     <Backdrop>
-      {loggedIn ? !videoConnected && <VideoConnectionDialog /> && <HelperButtonGroup /> : <Login />}
+      {loggedIn ? !videoConnected && <VideoConnectionDialog /> : <Login />}
+      <HelperButtonGroup />
     </Backdrop>
   )
 }

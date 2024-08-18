@@ -145,7 +145,6 @@ export default class Network {
 
     // when a HR add a notification message
     this.room.onMessage(Message.ADD_NOTIFICATION_MESSAGE, ({ clientId, content }) => {
-      console.log('ehehe');
       phaserEvents.emit(Event.ADD_NOTIFICATION_BUBBLE, clientId, content)
     })
 
@@ -241,7 +240,7 @@ export default class Network {
   addChatMessage(content: string) {
     this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content })
   }
-  
+
   addNotificationMessage(content: string) {
     this.room?.send(Message.ADD_NOTIFICATION_MESSAGE, { content: content })
   }

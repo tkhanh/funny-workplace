@@ -126,7 +126,7 @@ export default function HelperButtonGroup() {
       <div className="wrapper-group">
         {showNotification && (
           <FormWrapper onSubmit={handleSubmit}>
-            <Title>Notification</Title>
+            <Title>Announcement</Title>
             <IconButton className="close" onClick={() => setShowNotification(false)} size="small">
               <CloseIcon />
             </IconButton>
@@ -147,15 +147,15 @@ export default function HelperButtonGroup() {
                 </Button>
               </div>
             ) : (
-              <NotificationBox>Notification: {roomNotification}</NotificationBox>
+              <NotificationBox>Announcement: {roomNotification}</NotificationBox>
             )}
           </FormWrapper>
         )}
       </div>
       <ButtonGroup>
-        {roomJoined && (
+        {roomJoined && isAnnouncer && (
           <>
-            <Tooltip title="Room Notification">
+            <Tooltip title="Room Announcement">
               <StyledFab
                 size="small"
                 onClick={() => {
