@@ -40,7 +40,11 @@ export default class WebRTC {
   initialize() {
     this.myPeer.on('call', (call) => {
       if (!this.onCalledPeers.has(call.peer)) {
+        const audio = new Audio('/assets/sounds/ding.mp3')
+        audio.play()
+
         call.answer(this.myStream)
+
         const video = document.createElement('video')
         this.onCalledPeers.set(call.peer, { call, video })
 
