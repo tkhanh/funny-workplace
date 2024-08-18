@@ -252,10 +252,9 @@ export default class Game extends Phaser.Scene {
     otherPlayer?.updateDialogBubble(content)
   }
 
-  private handleNotificationMessageAdded(_playerId: string, content: string) {
-    let audio = new Audio('/assets/sounds/notification.mp3')
-    for (let i = 0; i < 5; i++) {
-      audio = new Audio('/assets/sounds/notification.mp3')
+  private handleNotificationMessageAdded(playerId: string, content: string) {
+    if (playerId !== this.myPlayer.playerId) {
+      const audio = new Audio('/assets/sounds/notification.mp3')
       audio.play()
     }
 
