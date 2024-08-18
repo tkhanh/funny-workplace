@@ -19,7 +19,6 @@ const AVATARS = {
 const Login = () => {
   const dispatch = useAppDispatch()
   const [formState, setFormState] = useState<Player & { error?: string }>({
-    id: 'test',
     name: '',
     gender: '',
     team: '',
@@ -61,7 +60,7 @@ const Login = () => {
           game.myPlayer.setPlayerTexture(AVATARS[gender])
           game.network.readyToConnect()
           dispatch(setLoggedIn(true))
-        }, 1000)
+        }, 500)
       })
       .catch((error) => console.error(error))
   }
