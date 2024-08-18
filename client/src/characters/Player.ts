@@ -141,6 +141,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       .setFontSize(15)
       .setColor('#ffffff')
       .setOrigin(0.5)
+      .setPadding(10)
 
     // Set notificationBox slightly larger than the text in it
     const innerTextHeight = innerText.height

@@ -251,21 +251,11 @@ export default class Game extends Phaser.Scene {
     const otherPlayer = this.otherPlayerMap.get(playerId)
     otherPlayer?.updateDialogBubble(content)
   }
-  
-  private handleNotificationMessageAdded(playerId: string, content: string) {
-    console.log('notification: ' + content);
-    if(playerId === this.myPlayer.playerId)
-    {
-      console.log('notify self');
-      this.myPlayer?.addNotificationBubble(content)
-    }
-    else{
-      console.log('receive notification');
-      const otherPlayer = this.otherPlayerMap.get(playerId)
-      otherPlayer?.addNotificationBubble(content)
-    }
+
+  private handleNotificationMessageAdded(_playerId: string, content: string) {
+    this.myPlayer?.addNotificationBubble(content)
   }
-  
+
   update(t: number, dt: number) {
     if (this.myPlayer && this.network) {
       this.playerSelector.update(this.myPlayer, this.cursors)
