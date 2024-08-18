@@ -143,6 +143,12 @@ export default class Network {
       phaserEvents.emit(Event.UPDATE_DIALOG_BUBBLE, clientId, content)
     })
 
+    // when a HR add a notification message
+    this.room.onMessage(Message.ADD_NOTIFICATION_MESSAGE, ({ clientId, content }) => {
+      console.log('ehehe');
+      phaserEvents.emit(Event.ADD_NOTIFICATION_BUBBLE, clientId, content)
+    })
+
     // when a peer disconnects with myPeer
     this.room.onMessage(Message.DISCONNECT_STREAM, (clientId: string) => {
       this.webRTC?.deleteOnCalledVideoStream(clientId)
@@ -152,6 +158,12 @@ export default class Network {
   // method to register event listener and call back function when a item user added
   onChatMessageAdded(callback: (playerId: string, content: string) => void, context?: any) {
     phaserEvents.on(Event.UPDATE_DIALOG_BUBBLE, callback, context)
+  }
+
+  // method to register event listener and call back function when a notification added
+  onNotificationMessageAdded(callback: (playerId: string, content: string) => void, context?: any) {
+    console.log('test')
+    phaserEvents.on(Event.ADD_NOTIFICATION_BUBBLE, callback, context)
   }
 
   // method to register event listener and call back function when a item user added
@@ -228,5 +240,9 @@ export default class Network {
 
   addChatMessage(content: string) {
     this.room?.send(Message.ADD_CHAT_MESSAGE, { content: content })
+  }
+  
+  addNotificationMessage(content: string) {
+    this.room?.send(Message.ADD_NOTIFICATION_MESSAGE, { content: content })
   }
 }

@@ -19,8 +19,15 @@ export interface IChatMessage extends Schema {
   content: string
 }
 
+export interface INotificationMessage extends Schema {
+  author: string
+  createdAt: number
+  content: string
+}
+
 export interface IOfficeState extends Schema {
   players: MapSchema<IPlayer>
   computers: MapSchema<IComputer>
   chatMessages: ArraySchema<IChatMessage>
+  notificationMessages: ArraySchema<INotificationMessage>
 }

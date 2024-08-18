@@ -21,6 +21,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   playerContainer: Phaser.GameObjects.Container
   private playerDialogBubble: Phaser.GameObjects.Container
   private timeoutID?: number
+  isAnnouncer = false
+  private notificationQueue: string[] = [] // Queue to hold notifications
+  private isNotificationActive = false // Flag to track if a notification is currently active
+  private notificationBubble: Phaser.GameObjects.Container
 
   constructor(
     scene: Phaser.Scene,
@@ -43,6 +47,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     // add dialogBubble to playerContainer
     this.playerDialogBubble = this.scene.add.container(0, 0).setDepth(5000)
     this.playerContainer.add(this.playerDialogBubble)
+
+    this.notificationBubble = this.scene.add.container(0, 0).setDepth(5000)
+    this.playerContainer.add(this.notificationBubble)
 
     // add playerName to playerContainer
     this.playerName = this.scene.add
@@ -98,6 +105,101 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.timeoutID = window.setTimeout(() => {
       this.clearDialogBubble()
     }, 6000)
+  }
+
+  addNotificationBubble(content: string) {
+    // Add the new notification to the queue
+    this.notificationQueue.push(content)
+
+    // Process the queue if no notification is currently active
+    if (!this.isNotificationActive) {
+      this.processNotificationQueue()
+    }
+  }
+
+  private processNotificationQueue() {
+    console.log('processNotificationQueue')
+    if (this.notificationQueue.length === 0) {
+      return // No notifications to process
+    }
+
+    // Get the next notification from the queue
+    const content = this.notificationQueue.shift()!
+
+    this.isNotificationActive = true // Set the flag to indicate a notification is active
+
+    // Create the notification text
+    const notificationBubbleText =
+      content.length <= 500 ? content : content.substring(0, 70).concat('...')
+
+    const innerText = this.scene.add
+      .text(0, 0, notificationBubbleText, {
+        wordWrap: { width: 500, useAdvancedWrap: true },
+        maxLines: 3,
+      })
+      .setFontFamily('Arial')
+      .setFontSize(15)
+      .setColor('#ffffff')
+      .setOrigin(0.5)
+
+    // Set notificationBox slightly larger than the text in it
+    const innerTextHeight = innerText.height
+    const innerTextWidth = innerText.width
+
+    innerText.setX(this.scene.cameras.main.width / 2.25)
+    innerText.setY(
+      -innerTextHeight / 4 - this.playerName.height / 2 - this.scene.cameras.main.height / 4
+    )
+
+    const notificationBoxWidth = innerTextWidth + 10
+    const notificationBoxHeight = innerTextHeight + 3
+    const notificationBoxX = innerText.x - innerTextWidth / 2 - 2
+    const notificationBoxY = innerText.y - innerTextHeight / 2 - 2
+
+    console.log(notificationBoxX)
+    const notificationBox = this.scene.add
+      .graphics()
+      .fillStyle(0x000000, 0.7)
+      .fillRoundedRect(
+        notificationBoxX,
+        notificationBoxY,
+        notificationBoxWidth,
+        notificationBoxHeight,
+        3
+      )
+      .lineStyle(1, 0x000000, 1)
+      .strokeRoundedRect(
+        notificationBoxX,
+        notificationBoxY,
+        notificationBoxWidth,
+        notificationBoxHeight,
+        3
+      )
+
+    // Initialize the notification bubble container
+    this.notificationBubble = this.scene.add.container(0, 0)
+    this.notificationBubble.add(notificationBox)
+    this.notificationBubble.add(innerText)
+
+    // Add the notification bubble to the player's container or scene
+    this.playerContainer.add(this.notificationBubble)
+
+    // Animate the notification to move from right to left
+    this.scene.tweens.add({
+      targets: this.notificationBubble,
+      x: this.playerContainer.x - this.scene.cameras.main.width - innerTextWidth * 1.25, // Move off the screen
+      ease: 'Linear',
+      duration: 15000, // Adjust duration as needed
+      onComplete: () => {
+        // Clear the notification bubble and reset the flag
+        if (this.notificationBubble) {
+          this.notificationBubble.destroy()
+        }
+        this.isNotificationActive = false // Reset the flag
+        // Continue processing any remaining notifications
+        this.processNotificationQueue()
+      },
+    })
   }
 
   private clearDialogBubble() {

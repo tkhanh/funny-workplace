@@ -21,6 +21,7 @@ export const roomSlice = createSlice({
     roomId: '',
     roomName: '',
     roomDescription: '',
+    roomNotification: '',
     availableRooms: new Array<RoomAvailable>(),
   },
   reducers: {
@@ -32,11 +33,15 @@ export const roomSlice = createSlice({
     },
     setJoinedRoomData: (
       state,
-      action: PayloadAction<{ id: string; name: string; description: string }>
+      action: PayloadAction<{ id: string; name: string; description: string; notification: string }>
     ) => {
       state.roomId = action.payload.id
       state.roomName = action.payload.name
       state.roomDescription = action.payload.description
+      state.roomNotification = action.payload.notification
+      if (state.roomNotification) {
+        state.roomNotification = 'Hiện tại không có thông báo nào.'
+      }
     },
     setAvailableRooms: (state, action: PayloadAction<RoomAvailable[]>) => {
       state.availableRooms = action.payload.filter((room) => isCustomRoom(room))
@@ -55,6 +60,9 @@ export const roomSlice = createSlice({
     removeAvailableRooms: (state, action: PayloadAction<string>) => {
       state.availableRooms = state.availableRooms.filter((room) => room.roomId !== action.payload)
     },
+    setRoomNotification: (state, action: PayloadAction<string>) => {
+      state.roomNotification = action.payload
+    },
   },
 })
 
@@ -65,6 +73,7 @@ export const {
   setAvailableRooms,
   addAvailableRooms,
   removeAvailableRooms,
+  setRoomNotification,
 } = roomSlice.actions
 
 export default roomSlice.reducer

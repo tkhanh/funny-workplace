@@ -54,10 +54,15 @@ const Login = () => {
 
         setTimeout(() => {
           const game = phaserGame.scene.keys.game as Game
-
+          var isAnnouncer = false
           game.registerKeys()
           game.myPlayer.setPlayerName(name)
           game.myPlayer.setPlayerTexture(AVATARS[gender])
+          if (formState.team == 'hr') {
+            isAnnouncer = true
+          }
+          console.log('isAnnouncer:' + isAnnouncer)
+          game.myPlayer.setPlayerIsAnnouncer(isAnnouncer)
           game.network.readyToConnect()
           dispatch(setLoggedIn(true))
         }, 500)

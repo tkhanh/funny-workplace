@@ -11,6 +11,7 @@ import store from '../stores'
 import { pushPlayerJoinedMessage } from '../stores/ChatStore'
 import { ItemType } from '../../../types/Items'
 import { NavKeys } from '../../../types/KeyboardState'
+import { setIsAnnouncer } from '../stores/UserStore'
 
 export default class MyPlayer extends Player {
   private playContainerBody: Phaser.Physics.Arcade.Body
@@ -31,6 +32,12 @@ export default class MyPlayer extends Player {
     this.playerName.setText(name)
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name)
     store.dispatch(pushPlayerJoinedMessage(name))
+  }
+
+  setPlayerIsAnnouncer(isAnnouncer: boolean) {
+    console.log(isAnnouncer)
+    this.isAnnouncer = isAnnouncer
+    store.dispatch(setIsAnnouncer(isAnnouncer))
   }
 
   setPlayerTexture(texture: string) {

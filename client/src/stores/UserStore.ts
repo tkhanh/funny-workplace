@@ -19,6 +19,7 @@ export const userSlice = createSlice({
     loggedIn: false,
     playerNameMap: new Map<string, string>(),
     showJoystick: window.innerWidth < 650,
+    isAnnouncer: false,
   },
   reducers: {
     toggleBackgroundMode: (state) => {
@@ -47,6 +48,10 @@ export const userSlice = createSlice({
     setShowJoystick: (state, action: PayloadAction<boolean>) => {
       state.showJoystick = action.payload
     },
+    setIsAnnouncer: (state, action: PayloadAction<boolean>) => {
+      state.isAnnouncer = action.payload
+      console.log(state.isAnnouncer);
+    },
   },
 })
 
@@ -58,6 +63,7 @@ export const {
   setPlayerNameMap,
   removePlayerNameMap,
   setShowJoystick,
+  setIsAnnouncer
 } = userSlice.actions
 
 export default userSlice.reducer

@@ -5,6 +5,7 @@ import { useAppSelector } from './hooks'
 
 import VideoConnectionDialog from './components/VideoConnectionDialog'
 import Login from './components/Login'
+import HelperButtonGroup from './components/HelperButtonGroup'
 
 const Backdrop = styled.div`
   position: absolute;
@@ -16,7 +17,11 @@ function App() {
   const loggedIn = useAppSelector((state) => state.user.loggedIn)
   const videoConnected = useAppSelector((state) => state.user.videoConnected)
 
-  return <Backdrop>{loggedIn ? !videoConnected && <VideoConnectionDialog /> : <Login />}</Backdrop>
+  return (
+    <Backdrop>
+      {loggedIn ? !videoConnected && <VideoConnectionDialog /> && <HelperButtonGroup /> : <Login />}
+    </Backdrop>
+  )
 }
 
 export default App

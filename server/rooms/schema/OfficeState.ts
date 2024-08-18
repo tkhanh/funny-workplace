@@ -1,5 +1,11 @@
 import { Schema, ArraySchema, SetSchema, MapSchema, type } from '@colyseus/schema'
-import { IPlayer, IOfficeState, IComputer, IChatMessage } from '../../../types/IOfficeState'
+import {
+  IPlayer,
+  IOfficeState,
+  IComputer,
+  IChatMessage,
+  INotificationMessage,
+} from '../../../types/IOfficeState'
 
 export class Player extends Schema implements IPlayer {
   @type('string') name = ''
@@ -20,6 +26,12 @@ export class ChatMessage extends Schema implements IChatMessage {
   @type('string') content = ''
 }
 
+export class NotificationMessage extends Schema implements INotificationMessage {
+  @type('string') author = ''
+  @type('number') createdAt = new Date().getTime()
+  @type('string') content = ''
+}
+
 export class OfficeState extends Schema implements IOfficeState {
   @type({ map: Player })
   players = new MapSchema<Player>()
@@ -29,6 +41,9 @@ export class OfficeState extends Schema implements IOfficeState {
 
   @type([ChatMessage])
   chatMessages = new ArraySchema<ChatMessage>()
+
+  @type([NotificationMessage])
+  notificationMessages = new ArraySchema<NotificationMessage>()
 }
 
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'

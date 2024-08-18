@@ -8,6 +8,7 @@ import PlayerUpdateCommand from './commands/PlayerUpdateCommand'
 import PlayerUpdateNameCommand from './commands/PlayerUpdateNameCommand'
 
 import ChatMessageUpdateCommand from './commands/ChatMessageUpdateCommand'
+import NotificationMessageUpdateCommand from './commands/NotificationMessageUpdateCommand'
 
 export class Workplace extends Room<OfficeState> {
   private dispatcher = new Dispatcher(this)
@@ -87,6 +88,21 @@ export class Workplace extends Room<OfficeState> {
         { clientId: client.sessionId, content: message.content },
         { except: client }
       )
+    })
+
+    // when a HR add a notification message, update the message array and broadcast to all connected clients
+    this.onMessage(Message.ADD_NOTIFICATION_MESSAGE, (client, message: { content: string }) => {
+      // update the message array (so that players join later can also see the message)
+      this.dispatcher.dispatch(new NotificationMessageUpdateCommand(), {
+        client,
+        content: message.content,
+      })
+
+      // broadcast to all currently connected clients except the sender (to render in-game dialog on top of the character)
+      this.broadcast(Message.ADD_NOTIFICATION_MESSAGE, {
+        clientId: client.sessionId,
+        content: message.content,
+      })
     })
   }
 
