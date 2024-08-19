@@ -86,11 +86,11 @@ export default class WebRTC {
   connectToNewUser(userId: string) {
     if (this.myStream) {
       const sanitizedId = this.replaceInvalidId(userId)
-      if (!this.peers.has(sanitizedId)) {
+      if (!this.onCalledPeers.has(sanitizedId)) {
         console.log('calling', sanitizedId)
         const call = this.myPeer.call(sanitizedId, this.myStream)
         const video = document.createElement('video')
-        this.peers.set(sanitizedId, { call, video })
+        this.onCalledPeers.set(sanitizedId, { call, video })
 
         call.on('stream', (userVideoStream) => {
           this.addVideoStream(video, userVideoStream)
@@ -114,11 +114,11 @@ export default class WebRTC {
   // method to remove video stream (when we are the host of the call)
   deleteVideoStream(userId: string) {
     const sanitizedId = this.replaceInvalidId(userId)
-    if (this.peers.has(sanitizedId)) {
-      const peer = this.peers.get(sanitizedId)
+    if (this.onCalledPeers.has(sanitizedId)) {
+      const peer = this.onCalledPeers.get(sanitizedId)
       peer?.call.close()
       peer?.video.remove()
-      this.peers.delete(sanitizedId)
+      this.onCalledPeers.delete(sanitizedId)
     }
   }
 
