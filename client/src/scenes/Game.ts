@@ -54,10 +54,13 @@ export default class Game extends Phaser.Scene {
     this.keyE = this.input.keyboard.addKey('E')
     this.keyR = this.input.keyboard.addKey('R')
     this.input.keyboard.disableGlobalCapture()
-    this.input.keyboard.on('keydown-ENTER', (event) => {
-      store.dispatch(setShowChat(true))
-      store.dispatch(setFocused(true))
-    })
+
+    // bug: hit ENTER will disable movability
+    // this.input.keyboard.on('keydown-ENTER', (event) => {
+    //   store.dispatch(setShowChat(true))
+    //   store.dispatch(setFocused(true))
+    // })
+
     this.input.keyboard.on('keydown-ESC', (event) => {
       store.dispatch(setShowChat(false))
     })
